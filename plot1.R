@@ -28,4 +28,6 @@ plot(x$Year, x$x
      , main = "Total emissions from PM2.5 by year")
 
 dev.off()
+
+options(scipen=0)
 ################################################################################
