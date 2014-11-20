@@ -28,7 +28,7 @@ g <- ggplot(b, aes(x = b$Year, y = b$x, color = b$Type))
 
 png("plot3.png")
 
-g + geom_line() + labs(x = "Year") + labs(y = "PM2.5 (tons)" ) + labs(title="Total emissions from PM2.5 by year and type for Baltimore City, Maryland") + guides(color=guide_legend(title="Type"))
+g + geom_line() + labs(x = "Year") + labs(y = expression('PM' [2.5]*" (tons)") ) + labs(title=expression('PM' [2.5]*" Emissions for Baltimore City, Maryland")) + guides(color=guide_legend(title="Type"))
 
 dev.off()
 

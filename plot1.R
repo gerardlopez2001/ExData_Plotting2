@@ -24,8 +24,9 @@ options(scipen=2)
 png("plot1.png")
 plot(x$Year, x$x
      ,type = "l"
-     , xlab= "Year", ylab = "PM2.5 (tons)"
-     , main = "Total emissions from PM2.5 by year")
+     , xlab= "Year"
+     , ylab = expression('PM' [2.5]*" (tons)")
+     , main = expression('Total PM' [2.5]*" Emissions"))
 
 dev.off()
 

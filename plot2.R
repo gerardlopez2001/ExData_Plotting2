@@ -21,9 +21,10 @@ z <- aggregate(y$Emissions, list(Year=y$year), FUN=sum, na.rm=TRUE)
 
 png("plot2.png")
 plot(z$Year, z$x
-     ,type = "l"
-     , xlab= "Year", ylab = "PM2.5 (tons)"
-     , main = "Total emissions from PM2.5 by year for Baltimore City, Maryland")
+     , type = "l"
+     , xlab= "Year"
+     , ylab = expression('PM' [2.5]*" (tons)")
+     , main = expression('Total PM' [2.5]*" Emissions for Baltimore City, Maryland"))
 
 dev.off()
 
