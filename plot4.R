@@ -12,35 +12,31 @@
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 ################################################################################
-# 1.    Have total emissions from PM2.5 decreased in the United States from 1999
-# to 2008? Using the base plotting system, make a plot showing the total PM2.5 
-# emission from all sources for each of the years 1999, 2002, 2005, and 2008.
-
-x <- aggregate(NEI$Emissions, by=list(NEI$year), sum)
-y <- x$Group.1
-
-png("plot1.png")
-format(x$x, scientific =FALSE)
-plot(x$Group.1, x$x, axes = F, xlab= NA, ylab = NA, main = "Total emissions by year")
-axis(1,at=c(1999,2002,2005,2008), labels=c("1999","2002","2005","2008"))
-# axis(2,at=c(7332967,5635780,5454703,3464206), labels=c("7332967","5635780","5454703","3464206"))
-# axis(2,at=c(7500000,5000000,2500000,0), labels=c("7500000","5000000","2500000","0"))
-axis(2, axTicks(2), format(axTicks(2), scientific = F))
-
-boxplot(x$x, main = "Total emissions by year")
-
-
-plot(x$Group.1, x$x, main = "Total emissions by year")
-with(subset(NEI, year == 1999), points())
-
-
-dev.off()
-
-
-################################################################################
 # 4.	Across the United States, how have emissions from coal combustion-related 
-# sources changed from 1999â€“2008?
+# sources changed from 1999-€“2008?
+
+library(ggplot2)
+
+#check out EI.Sector variable values
+unique(SCC$EI.Sector)
+
+# only 3 seem to have anything to do with coal.
+coalCodes <- subset(SCC,
+                    (EI.Sector == "Fuel Comb - Industrial Boilers, ICEs - Coal"
+                     | EI.Sector == "Fuel Comb - Electric Generation - Coal"
+                     | EI.Sector == "Fuel Comb - Comm/Institutional - Coal"),
+                    select = c(SCC))
+
+coalCodes$SCC = as.character(coalCodes$SCC)
+
+k <- subset(NEI, NEI$SCC %in% c(coalCodes$SCC))
+l <- aggregate(k$Emissions, list(Year=k$year), FUN=sum, na.rm=TRUE)
+
+g <- ggplot(l, aes(x = l$Year, y = l$x))
+
 png("plot4.png")
+
+g + geom_line() + labs(x = "Year") + labs(y = expression('PM' [2.5]*" (tons)") ) + labs(title=expression('PM' [2.5]*" Emissions for Coal Combustion-Related Sources"))
 
 dev.off()
 
