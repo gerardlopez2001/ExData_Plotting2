@@ -33,8 +33,7 @@ unique(SCC$EI.Sector)
 # Mobile - On-Road Gasoline Light Duty Vehicles      
 # Mobile - On-Road Gasoline Heavy Duty Vehicles     
 # Mobile - On-Road Diesel Light Duty Vehicles        
-# Mobile - On-Road Diesel Heavy Duty Vehicles  
-
+# Mobile - On-Road Diesel Heavy Duty Vehicles
 
 mvCodes <- subset(SCC,
                   (EI.Sector == "Mobile - On-Road Gasoline Light Duty Vehicles"
@@ -45,10 +44,12 @@ mvCodes <- subset(SCC,
 
 mvCodes$SCC = as.character(mvCodes$SCC)
 
-t <- subset(NEI, (NEI$SCC %in% c(mvCodes$SCC) & (NEI$fips == "24510" | NEI$fips == "06037")))
+t <- subset(NEI, (NEI$SCC %in% c(mvCodes$SCC) 
+                  & (NEI$fips == "24510" | NEI$fips == "06037")))
 
 u <- aggregate(t$Emissions, list(Year=t$year, fips=t$fips), FUN=sum, na.rm=TRUE)
-u$fips <- factor(u$fips,levels = c("24510", "06037" ), labels = c("Baltimore City", "Los Angeles County") )
+u$fips <- factor(u$fips,levels = c("24510", "06037" )
+                 , labels = c("Baltimore City", "Los Angeles County") )
 
 g <- ggplot(u, aes(x = u$Year, y = u$x, color = u$fips))
 
@@ -56,4 +57,3 @@ png("plot6.png")
 g + geom_line() + labs(x = "Year") + labs(y = expression('PM' [2.5]*" (tons)") ) + labs(title=expression('PM' [2.5]*" Emissions for Motor Vehicle Sources")) + guides(color=guide_legend(title="County"))
 dev.off()
 ################################################################################
-
